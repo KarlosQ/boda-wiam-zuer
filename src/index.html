@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#fbfaf6">
+	<title>Invitación de nuestra boda</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600&family=Parisienne&display=swap');
+
+		:root {
+			--ink: #193d36;
+			--gold: #c89537;
+			--gold-soft: #e8cf95;
+			--paper: #fbfaf6;
+			--muted: #6f746e;
+		}
+
+		* { box-sizing: border-box; }
+
+		.intro-video {
+			position: fixed;
+			inset: 0;
+			z-index: 10;
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			background: #000;
+			cursor: pointer;
+			transition: opacity 1s ease;
+		}
+
+		.intro-video.is-fading { opacity: 0; }
+
+		body.intro-active { overflow: hidden; }
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background: var(--paper);
+			font-family: 'Montserrat', sans-serif;
+			text-align: center;
+		}
+
+		.invitation {
+			width: min(100%, 430px);
+			min-height: 100vh;
+			margin: 0 auto;
+			overflow: hidden;
+			background:
+				radial-gradient(circle at 50% 4%, rgba(232, 207, 149, .22), transparent 20%),
+				linear-gradient(180deg, #fffefa 0%, var(--paper) 100%);
+		}
+
+		.arabic {
+			display: block;
+			width: 90%;
+			height: auto;
+			margin: 16px;
+		}
+
+		.welcome {
+			position: relative;
+			width: 100%;
+			aspect-ratio: .9;
+			overflow: hidden;
+			margin-bottom: -40px;
+		}
+
+		.welcome-arc {
+			position: absolute;
+			top: 0;
+			width: 54%;
+			height: 72%;
+			object-fit: fill;
+		}
+
+		.welcome-arc.left { left: 0; }
+		.welcome-arc.right { right: 0; transform: scaleX(-1); }
+
+		.welcome-copy {
+			position: absolute;
+			top: 22%;
+			left: 16%;
+			z-index: 1;
+			width: 67%;
+			color: #182746;
+			font-family: 'Parisienne', cursive;
+		}
+
+		.welcome-copy h1 {
+			margin: 0 auto;
+			font-size: clamp(21px, 7vw, 28px);
+			font-weight: 400;
+			line-height: 1.2;
+		}
+
+		.welcome-panel {
+			position: absolute;
+			bottom: 85px;
+			left: 4%;
+			z-index: 2;
+			width: 92%;
+		}
+
+		.welcome-panel > img:first-child {
+			display: block;
+			width: 100%;
+			height: auto;
+		}
+
+		.welcome-panel div {
+			position: absolute;
+			top: 24%;
+			left: 11%;
+			width: 74%;
+			margin: 0;
+			color: #17120d;
+			font-family: 'Cormorant Garamond', serif;
+			font-size: clamp(13px, 3.4vw, 18px);
+			font-weight: 600;
+			line-height: 1.25;
+		}
+
+		.welcome-light {
+			position: absolute;
+			right: 2%;
+			bottom: 0%;
+			width: 12%;
+			height: auto;
+		}
+
+		section { margin: 0 auto 29px; }
+
+		.section-title {
+			margin: 0 0 8px;
+			color: var(--gold);
+			font-family: 'Cormorant Garamond', serif;
+			font-size: 21px;
+			font-weight: 700;
+		}
+
+		.date {
+			display: grid;
+			grid-template-columns: 1fr 45px 1fr;
+			align-items: center;
+			max-width: 90%;
+			margin: auto;
+			color: #171b1b;
+			font-family: 'Didone', serif;
+		}
+
+		.date span { 			font-size: 20px; border-top: 1px solid #9fb7a7; border-bottom: 1px solid #9fb7a7; padding: 5px 2px; }
+		.date .number { border: 0; font-size: 28px; }
+		.month { margin: 8px 0 0; color: #242d2a; font-family: 'Cormorant Garamond', serif; font-size: 18px; letter-spacing: 5px; }
+		.year { margin: 4px 0 0; font-family: 'Cormorant Garamond', serif; font-size: 20px; letter-spacing: 4px; }
+
+		.countdown { display: flex; justify-content: center; gap: 17px; color: #276a31; }
+		.countdown div { text-align: center; width: 24px }
+		.countdown strong { display: block; font-size: 29px; font-weight: 500; letter-spacing: 1px; }
+		.countdown small { display: block; margin-top: 1px; color: #477052; font-size: 6px; text-transform: uppercase; }
+
+		.venue-photo {
+			display: block;
+			width: 100%;
+			max-width: 280px;
+			aspect-ratio: 1.86;
+			object-fit: cover;
+			margin: 0 auto 17px;
+			border: 1px solid #d7c28e;
+		}
+
+		.venue-name { margin: 0 auto 11px; max-width: 260px; color: #397158; font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 700; line-height: 1.25; }
+
+		.button {
+			display: inline-block;
+			min-width: 162px;
+			padding: 9px 20px 8px;
+			border: 1px solid #24211b;
+			border-radius: 30px;
+			box-shadow: 0 4px 0 #b18b4c;
+			color: #26231e;
+			background: #fff;
+			font-family: 'Cormorant Garamond', serif;
+			font-size: 17px;
+			line-height: 1.1;
+			text-decoration: none;
+			transition: transform .2s ease, box-shadow .2s ease;
+		}
+
+		.button:active { transform: translateY(3px); box-shadow: 0 1px 0 #b18b4c; }
+		.ornament { margin: 7px auto 26px; color: var(--gold); letter-spacing: 5px; }
+		.ornament img { width: 38px; }
+		.confirmation p { max-width: 250px; margin: 0 auto 10px; color: #302d27; font-family: 'Cormorant Garamond', serif; font-size: 13px; line-height: 1.25; }
+		.verse { margin: 31px 0 31px 0; color: #161b18; font-family: 'Cormorant Garamond', serif; }
+		.verse strong { display: block; font-family: serif; font-size: 16px; direction: rtl; }
+		.verse em { display: block; margin-top: 7px; font-size: 12px; line-height: 1.3; }
+		.closing { margin: 34px 0 34px 0; color: #161b18; font-family: 'Cormorant Garamond', serif; }
+		.closing h2 { margin: 0 0 7px; font-size: 20px; }
+		.closing p { max-width: 220px; margin: auto; font-size: 13px; line-height: 1.35; }
+		.book { display: block; margin: 0 auto; width: 70px; }
+
+		.music-toggle {
+			position: fixed;
+			right: 16px;
+			bottom: 16px;
+			width: 42px;
+			height: 42px;
+			border: 1px solid var(--gold);
+			border-radius: 50%;
+			color: var(--ink);
+			background: #fffefa;
+			font-size: 17px;
+			cursor: pointer;
+		}
+
+		@media (min-width: 431px) { body { padding: 20px 0; } .invitation { box-shadow: 0 0 30px rgba(25,61,54,.08); } }
+	</style>
+</head>
+<body>
+	<video class="intro-video" id="introVideo" playsinline webkit-playsinline preload="auto" aria-label="Introducción de la invitación">
+		<source src="./assets/videos/init.mp4" type="video/mp4">
+	</video>
+
+	<main class="invitation">
+		<div>
+			<img class="arabic" src="./assets/vectors/title.svg" alt="En el nombre de Dios" loading="lazy">
+		</div>
+
+		<div class="welcome">
+			<img class="welcome-arc left" src="./assets/images/arc.png" alt="" aria-hidden="true">
+			<img class="welcome-arc right" src="./assets/images/arc.png" alt="" aria-hidden="true">
+			<div class="welcome-copy">
+				<h1>Os damos la bienvenida a<br>nuestra boda</h1>
+			</div>
+			<div class="welcome-panel">
+				<img src="./assets/vectors/textcontent.svg" alt="">
+				<div>Con todo nuestro cariño, queremos invitaros al día en el que celebramos nuestro amor para siempre, inchallah</div>
+				<img class="welcome-light" src="./assets/images/light.png" alt="Lámpara decorativa">
+			</div>
+		</div>
+
+		<section aria-labelledby="fecha">
+			<h2 class="section-title" id="fecha">Fecha</h2>
+			<div class="date"><span class="day">DOMINGO</span><span class="number">6</span><span>16:00</span></div>
+			<p class="month">DICIEMBRE</p>
+			<p class="year">2026</p>
+		</section>
+
+		<section aria-labelledby="faltan">
+			<h2 class="section-title" id="faltan">Faltan</h2>
+			<div class="countdown" aria-live="polite">
+				<div><strong id="days">00</strong><small>días</small></div>
+				<div><strong>:</strong></div>
+				<div><strong id="hours">00</strong><small>horas</small></div>
+				<div><strong>:</strong></div>
+				<div><strong id="minutes">00</strong><small>minutos</small></div>
+				<div><strong>:</strong></div>
+				<div><strong id="seconds">00</strong><small>segundos</small></div>
+			</div>
+		</section>
+
+		<section aria-labelledby="ubicacion">
+			<h2 class="section-title" id="ubicacion">Ubicación</h2>
+			<img class="venue-photo" src="./assets/images/palace.jpg" alt="Jardines de un palacio en Tánger" loading="lazy">
+			<p class="venue-name">Palacio Moulay Hafid,<br>Tánger</p>
+			<a class="button" href="https://www.google.com/maps?sca_esv=82a37564b757cef6&sxsrf=APpeQnsEVORiCieRR3FOZ2FhN5x9BDYnig:1785499244315&kgmid=/g/11c1qb7rkj&shem=dlvs1,epsd1,ltae,rimspwouoe&shndl=30&kgs=2be5ccfb86c88e76&um=1&ie=UTF-8&fb=1&gl=es&sa=X&geocode=KYc0_9axeAwNMYy8c4BqhO78&daddr=Q5PH%2B68R,+Tangier,+Marruecos" target="_blank" rel="noopener">VER MAPA</a>
+		</section>
+
+		<div class="ornament" aria-hidden="true">
+			<img src="./assets/vectors/star.svg" alt="Ornamento decorativo">
+			<img src="./assets/vectors/star.svg" alt="Ornamento decorativo">
+			<img src="./assets/vectors/star.svg" alt="Ornamento decorativo">
+			<img src="./assets/vectors/star.svg" alt="Ornamento decorativo">
+			<img src="./assets/vectors/star.svg" alt="Ornamento decorativo">
+			<img src="./assets/vectors/star.svg" alt="Ornamento decorativo">
+		</div>
+
+		<section class="confirmation" aria-labelledby="confirmacion">
+			<h2 class="section-title" id="confirmacion">Confirmación</h2>
+			<p>Estamos organizando cada detalle con ilusión.<br>¡Confírmanos si contamos contigo!</p>
+			<a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLScdC2VcxccMpcu--kPWBqJ1csEBEn2q_8Ub6GcRa6NVOh4F9Q/viewform" target="_blank" rel="noopener">CONFIRMAR<br>ASISTENCIA</a>
+		</section>
+
+		<div class="verse">
+			<strong>وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةً</strong>
+			<em>"Y ha puesto entre vosotros amor y ternura."<br>Sura Ar-Rum (30:21)</em>
+		</div>
+
+		<img class="book" src="./assets/vectors/book.svg" alt="Libro">
+
+		<footer class="closing">
+			<h2>¡Allí te esperamos!</h2>
+			<p>Nos hará muy felices que nos acompañes y seas testigo del principio de nuestra historia.</p>
+		</footer>
+	</main>
+
+	<audio id="music" src="./assets/sounds/music.mp3" preload="auto"></audio>
+	<button class="music-toggle" id="musicToggle" type="button" aria-label="Pausar música" title="Pausar música">♫</button>
+
+	<script>
+		const weddingDate = new Date('2026-12-06T16:00:00+01:00').getTime();
+		const introVideo = document.getElementById('introVideo');
+		const music = document.getElementById('music');
+		const musicToggle = document.getElementById('musicToggle');
+		let introStarted = false;
+
+		function finishIntro() {
+			introVideo.classList.add('is-fading');
+			window.setTimeout(() => {
+				introVideo.hidden = true;
+				document.body.classList.remove('intro-active');
+				introVideo.remove();
+			}, 1000);
+		}
+
+		function startIntro() {
+			window.scrollTo(0, 0);
+			if (introStarted) return;
+			introStarted = true;
+			window.setTimeout(() => {
+				introVideo.muted = true;
+			}, 500);
+			window.setTimeout(finishIntro, 7000);
+			introVideo.play().catch((error) => {
+				console.error('No se pudo reproducir el video de introducción:', error);
+			});
+			music.play().catch((error) => {
+				console.error('No se pudo reproducir la música:', error);
+			});
+		}
+
+		function updateCountdown() {
+			const remaining = Math.max(0, weddingDate - Date.now());
+			const days = Math.floor(remaining / 86400000);
+			const hours = Math.floor(remaining / 3600000) % 24;
+			const minutes = Math.floor(remaining / 60000) % 60;
+			const seconds = Math.floor(remaining / 1000) % 60;
+			document.getElementById('days').textContent = String(days).padStart(2, '0');
+			document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+			document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+			document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+		}
+
+		function setMusicLabel(isPlaying) {
+			musicToggle.textContent = isPlaying ? '♫' : '▶';
+			musicToggle.setAttribute('aria-label', isPlaying ? 'Pausar música' : 'Reproducir música');
+			musicToggle.title = isPlaying ? 'Pausar música' : 'Reproducir música';
+		}
+
+		updateCountdown();
+		setInterval(updateCountdown, 1000);
+		document.body.classList.add('intro-active');
+		introVideo.addEventListener('pointerup', startIntro, { once: true });
+		music.addEventListener('play', () => setMusicLabel(true));
+		music.addEventListener('pause', () => setMusicLabel(false));
+		musicToggle.addEventListener('click', () => music.paused ? music.play() : music.pause());
+		music.play().catch(() => setMusicLabel(false));
+	</script>
+</body>
+</html>
