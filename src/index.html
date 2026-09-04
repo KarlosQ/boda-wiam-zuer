@@ -268,7 +268,7 @@
 			<h2 class="section-title" id="ubicacion">Ubicación</h2>
 			<img class="venue-photo" src="./assets/images/palace.jpg" alt="Jardines de un palacio en Tánger" loading="lazy">
 			<p class="venue-name">Palacio Moulay Hafid,<br>Tánger</p>
-			<a class="button" href="https://www.google.com/maps?sca_esv=82a37564b757cef6&sxsrf=APpeQnsEVORiCieRR3FOZ2FhN5x9BDYnig:1785499244315&kgmid=/g/11c1qb7rkj&shem=dlvs1,epsd1,ltae,rimspwouoe&shndl=30&kgs=2be5ccfb86c88e76&um=1&ie=UTF-8&fb=1&gl=es&sa=X&geocode=KYc0_9axeAwNMYy8c4BqhO78&daddr=Q5PH%2B68R,+Tangier,+Marruecos" target="_blank" rel="noopener">VER MAPA</a>
+			<a class="button" href="https://maps.app.goo.gl/1cbcR7YxC5tpy3Sf7" target="_blank" rel="noopener">VER MAPA</a>
 		</section>
 
 		<div class="ornament" aria-hidden="true">
@@ -299,7 +299,7 @@
 		</footer>
 	</main>
 
-	<audio id="music" src="./assets/sounds/music.mp3" preload="auto"></audio>
+	<audio id="music" src="./assets/sounds/music.mp3" ></audio>
 	<button class="music-toggle" id="musicToggle" type="button" aria-label="Pausar música" title="Pausar música">♫</button>
 
 	<script>
@@ -322,6 +322,7 @@
 			window.scrollTo(0, 0);
 			if (introStarted) return;
 			introStarted = true;
+
 			window.setTimeout(() => {
 				introVideo.muted = true;
 			}, 500);
