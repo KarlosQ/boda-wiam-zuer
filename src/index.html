@@ -34,6 +34,20 @@
 			transition: opacity 1s ease;
 		}
 
+		.intro-gate {
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 50%;
+			z-index: 11;
+			display: block;
+			width: min(100%, 430px);
+			height: 100%;
+			object-fit: cover;
+			cursor: pointer;
+			transform: translateX(-50%);
+		}
+
 		.intro-video.is-fading { opacity: 0; }
 
 		body.intro-active { overflow: hidden; }
@@ -222,7 +236,8 @@
 	</style>
 </head>
 <body>
-	<video class="intro-video" id="introVideo" playsinline webkit-playsinline preload="auto" aria-label="Introducción de la invitación">
+	<img class="intro-gate" id="introGate" src="./assets/images/gate.png" alt="Abrir invitación">
+	<video class="intro-video" id="introVideo" playsinline webkit-playsinline preload="auto" muted hidden aria-label="Introducción de la invitación">
 		<source src="./assets/videos/init.mp4" type="video/mp4">
 	</video>
 
@@ -304,6 +319,7 @@
 
 	<script>
 		const weddingDate = new Date('2026-12-06T16:00:00+01:00').getTime();
+		const introGate = document.getElementById('introGate');
 		const introVideo = document.getElementById('introVideo');
 		const music = document.getElementById('music');
 		const musicToggle = document.getElementById('musicToggle');
@@ -322,10 +338,13 @@
 			window.scrollTo(0, 0);
 			if (introStarted) return;
 			introStarted = true;
+			introGate.remove();
+			introVideo.hidden = false;
 
 			window.setTimeout(() => {
 				introVideo.muted = true;
 			}, 500);
+
 			window.setTimeout(finishIntro, 8000);
 			introVideo.play().catch((error) => {
 				console.error('No se pudo reproducir el video de introducción:', error);
@@ -356,7 +375,7 @@
 		updateCountdown();
 		setInterval(updateCountdown, 1000);
 		document.body.classList.add('intro-active');
-		introVideo.addEventListener('pointerup', startIntro, { once: true });
+		introGate.addEventListener('pointerup', startIntro, { once: true });
 		music.addEventListener('play', () => setMusicLabel(true));
 		music.addEventListener('pause', () => setMusicLabel(false));
 		musicToggle.addEventListener('click', () => music.paused ? music.play() : music.pause());
