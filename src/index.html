@@ -28,7 +28,7 @@
 			width: min(100%, 430px);
 			height: 100%;
 			object-fit: cover;
-			background: #000;
+			background: var(--paper);
 			cursor: pointer;
 			transform: translateX(-50%);
 			transition: opacity 1s ease;
@@ -326,7 +326,7 @@
 			window.setTimeout(() => {
 				introVideo.muted = true;
 			}, 500);
-			window.setTimeout(finishIntro, 7000);
+			window.setTimeout(finishIntro, 8000);
 			introVideo.play().catch((error) => {
 				console.error('No se pudo reproducir el video de introducción:', error);
 			});
