@@ -342,8 +342,7 @@
 			window.scrollTo(0, 0);
 			if (introStarted) return;
 			introStarted = true;
-			introVideo.hidden = false;
-			introGate.remove();
+
 
 			window.setTimeout(() => {
 				introVideo.muted = true;
@@ -359,6 +358,9 @@
 			music.play().catch((error) => {
 				console.error('No se pudo reproducir la música:', error);
 			});
+
+			introVideo.hidden = false;
+			introGate.remove();
 		}
 
 		function updateCountdown() {
