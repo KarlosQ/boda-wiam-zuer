@@ -51,6 +51,10 @@
 		.intro-video.is-fading { opacity: 0; }
 
 		body.intro-active { overflow: hidden; }
+		body.intro-active .invitation,
+		body.intro-active .music-toggle { visibility: hidden; }
+		body.intro-active.intro-video-started .invitation,
+		body.intro-active.intro-video-started .music-toggle { visibility: visible; }
 
 		body {
 			margin: 0;
@@ -346,8 +350,11 @@
 			}, 500);
 
 			window.setTimeout(finishIntro, 8000);
-			introVideo.play().catch((error) => {
+			introVideo.play().then(() => {
+				document.body.classList.add('intro-video-started');
+			}).catch((error) => {
 				console.error('No se pudo reproducir el video de introducción:', error);
+				finishIntro();
 			});
 			music.play().catch((error) => {
 				console.error('No se pudo reproducir la música:', error);
