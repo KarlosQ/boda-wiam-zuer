@@ -46,7 +46,10 @@
 			object-fit: cover;
 			cursor: pointer;
 			transform: translateX(-50%);
+			transition: opacity 50ms ease;
 		}
+
+		.intro-gate.is-fading { opacity: 0; }
 
 		.intro-video.is-fading { opacity: 0; }
 
@@ -361,9 +364,8 @@
 
 			introVideo.hidden = false;
 
-			setTimeout(() => {
-				introGate.remove();
-			}, 50);
+			introGate.classList.add('is-fading');
+			window.setTimeout(() => introGate.remove(), 50);
 		}
 
 		function updateCountdown() {
