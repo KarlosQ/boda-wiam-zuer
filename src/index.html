@@ -360,7 +360,10 @@
 			});
 
 			introVideo.hidden = false;
-			introGate.remove();
+
+			setTimeout(() => {
+				introGate.remove();
+			}, 50);
 		}
 
 		function updateCountdown() {
